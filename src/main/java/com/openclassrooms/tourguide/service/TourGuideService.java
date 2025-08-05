@@ -88,6 +88,7 @@ public class TourGuideService {
 		return providers;
 	}
 
+	// peut etre trouver ici aussi
 	public VisitedLocation trackUserLocation(User user) {
 		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
 		user.addToVisitedLocations(visitedLocation);
@@ -95,6 +96,7 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
+	// trouver ici ce qu'on doit modifier
 	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
 		List<Attraction> nearbyAttractions = new ArrayList<>();
 		for (Attraction attraction : gpsUtil.getAttractions()) {
