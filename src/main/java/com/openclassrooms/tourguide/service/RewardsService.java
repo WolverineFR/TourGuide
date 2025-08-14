@@ -63,10 +63,6 @@ public class RewardsService {
 		}, executor);
 	};
 
-	public void shutdown() {
-		executor.shutdown();
-	}
-
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
 		return getDistance(attraction, location) > attractionProximityRange ? false : true;
 	}
