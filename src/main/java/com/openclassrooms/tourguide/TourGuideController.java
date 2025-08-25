@@ -17,50 +17,85 @@ import com.openclassrooms.tourguide.user.UserReward;
 
 import tripPricer.Provider;
 
+/**
+ * Contrôleur REST principal de l'application TourGuide.
+ */
+
 @RestController
 public class TourGuideController {
 
 	@Autowired
 	TourGuideService tourGuideService;
-	
-    @RequestMapping("/")
-    public String index() {
-        return "Greetings from TourGuide!";
-    }
-    
-    @RequestMapping("/getLocation") 
-    public VisitedLocation getLocation(@RequestParam String userName) {
-    	return tourGuideService.getUserLocation(getUser(userName));
-    }
-    
-    //  TODO: Change this method to no longer return a List of Attractions.
- 	//  Instead: Get the closest five tourist attractions to the user - no matter how far away they are.
- 	//  Return a new JSON object that contains:
-    	// Name of Tourist attraction, 
-        // Tourist attractions lat/long, 
-        // The user's location lat/long, 
-        // The distance in miles between the user's location and each of the attractions.
-        // The reward points for visiting each Attraction.
-        //    Note: Attraction reward points can be gathered from RewardsCentral
-    @RequestMapping("/getNearbyAttractions") 
-    public List<NearbyAttractionDTO> getNearbyAttractions(@RequestParam String userName) {
-    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
-    	return tourGuideService.getNearByAttractions(visitedLocation,getUser(userName));
-    }
-    
-    @RequestMapping("/getRewards") 
-    public List<UserReward> getRewards(@RequestParam String userName) {
-    	return tourGuideService.getUserRewards(getUser(userName));
-    }
-       
-    @RequestMapping("/getTripDeals")
-    public List<Provider> getTripDeals(@RequestParam String userName) {
-    	return tourGuideService.getTripDeals(getUser(userName));
-    }
-    
-    private User getUser(String userName) {
-    	return tourGuideService.getUser(userName);
-    }
-   
+
+	/**
+	 * Endpoint racine de l'API.
+	 *
+	 * @return un message de bienvenue simple confirmant le bon fonctionnement du
+	 *         service.
+	 */
+	@RequestMapping("/")
+	public String index() {
+		return "Greetings from TourGuide!";
+	}
+
+	/**
+	 * Récupère la position actuelle de l'utilisateur spécifié.
+	 *
+	 * @param userName le nom de l'utilisateur (obligatoire)
+	 * @return un objet {@link VisitedLocation} représentant la localisation
+	 *         actuelle de l'utilisateur.
+	 */
+	@RequestMapping("/getLocation")
+	public VisitedLocation getLocation(@RequestParam String userName) {
+		return tourGuideService.getUserLocation(getUser(userName));
+	}
+
+	/**
+	 * Récupère la liste des attractions proches de la position actuelle de
+	 * l'utilisateur.
+	 *
+	 * @param userName le nom de l'utilisateur (obligatoire)
+	 * @return une liste de {@link NearbyAttractionDTO} contenant les informations
+	 *         des attractions les plus proches.
+	 */
+	@RequestMapping("/getNearbyAttractions")
+	public List<NearbyAttractionDTO> getNearbyAttractions(@RequestParam String userName) {
+		VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
+		return tourGuideService.getNearByAttractions(visitedLocation, getUser(userName));
+	}
+
+	/**
+	 * Récupère la liste des récompenses associées à l'utilisateur.
+	 *
+	 * @param userName le nom de l'utilisateur (obligatoire)
+	 * @return une liste de {@link UserReward} correspondant aux récompenses
+	 *         obtenues.
+	 */
+	@RequestMapping("/getRewards")
+	public List<UserReward> getRewards(@RequestParam String userName) {
+		return tourGuideService.getUserRewards(getUser(userName));
+	}
+
+	/**
+	 * Récupère les offres de voyage (trip deals) personnalisées pour l'utilisateur.
+	 *
+	 * @param userName le nom de l'utilisateur (obligatoire)
+	 * @return une liste de {@link Provider} représentant les offres proposées.
+	 */
+	@RequestMapping("/getTripDeals")
+	public List<Provider> getTripDeals(@RequestParam String userName) {
+		return tourGuideService.getTripDeals(getUser(userName));
+	}
+
+	/**
+	 * Méthode utilitaire interne pour récupérer l'objet {@link User} à partir de
+	 * son nom.
+	 *
+	 * @param userName le nom de l'utilisateur
+	 * @return l'objet {@link User} correspondant.
+	 */
+	private User getUser(String userName) {
+		return tourGuideService.getUser(userName);
+	}
 
 }

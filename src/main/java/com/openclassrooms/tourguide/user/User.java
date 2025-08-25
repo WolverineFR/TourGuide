@@ -70,7 +70,6 @@ public class User {
 		visitedLocations.clear();
 	}
 
-	// Modification ici, verification si le reward à deja ete donné
 	public void addUserReward(UserReward userReward) {
 	    boolean alreadyRewarded = userRewards.stream()
 	        .anyMatch(r -> r.attraction.attractionName.equals(userReward.attraction.attractionName));
